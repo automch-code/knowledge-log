@@ -1,0 +1,110 @@
+ENGLISH
+    deceive     การหลอกหลวง
+    adhere      ปฏิบัติตาม
+    inferred    การอนุมาน, สรุป
+    mandatory   บังคับ, จำเป็น, คำสั่ง
+
+    การใช้ 
+    to which ใช้ในการลดรูปประโยคให้สั้นลง
+    เช่น
+    We are movie to a new town.Town is very big.
+    The new town to which we are moving is very big.
+
+JAVA Programming
+    การ config ตัว logback.xml
+    
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        ...
+        <pattern>
+            %d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n
+        </pattern>
+    </appender>
+    ConsoleAppender จะพูดถึง log ที่เราเจอเวลาเรา start server ขึ้นมาแล้วมี log ขึ้น
+    ถ้าเรา config ตัว tag นี้มันก็จะมี pattern เป็นไปตามที่เราต้องการ
+
+    ตัวอย่าง 
+    <pattern>
+        %d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n
+    </pattern>
+
+    %d              จะแสดงเวลาที่มี log message เกิดขึ้น จะมี format ตาม SimpleDateFormat
+    %thread         แสดงชื่อ thread ที่ ทำให้ log message เกิดขึ้น 
+    $-5level        แสดง log level ของ log message
+    %logger{36}     แสดง log message ที่นำ package + class name ตัวเลขที่อยู่ด้านใน {} ไว้บอกถึง maximum length ของข้อความ
+    %M              แสดงชื่อ Method (แต่ไม่แนะนำให้ทำเพราะมีผลกับ performance เว้นแต่ method นั้นจะมีความสำคัญจริงๆ)
+    %msg            แสดง log message จริงๆ
+    %n              line break
+    %magenta()      กำหนด สี ให้กับ log เช่น %magenta([%thread]) thread ก็จะเป็นสีนึง  
+    %highlight()    กำหนดสีต่างๆ เช่น %highlight(%-5level) ERROR ก็จะเป็นสีแเดง
+
+    appender จะถูกสร้างขึ้นแล้วก็ถูกนำไปใช้เพื่อ อ้างอิง ใน root แล้วระบุ log level (INFO,info ตัวเล็ก ตัวใหญ่ ไม่มีผล)
+    level ของ log
+    - OFF (output no logs)
+    - ERROR
+    - WARN
+    - INFO
+    - DEBUG
+    - TRACE
+
+    เราสามารถ set ค่าตาม xml ได้ใน application properties ได้เหมือนกัน
+    ตัวอย่าง
+        logging.level.root=info
+        logging.pattern.console=%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger.%M - %msg%n
+
+    การที่เราเขียนตัว logback.xml คือเป็นการไป override ตัว logback เดิม ถ้าเราอยากจะใช้ตัว logback เดิมก็ให้เพิ่ม
+    <include resource="org/springframework/boot/logging/logback/base.xml"/> ไว้ด้วยส่วนที่ไม่ถูก override ก็จะถูกนำมาใช้
+
+    File appender
+    <appender name="SAVE-TO-FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_PATH}/log.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+            %d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n
+            </Pattern>
+        </encoder>
+    </appender>
+
+    FileAppender 
+        จะเป็นการ save log ลงไปใน file โดยที่
+        <file> จะอ้างถึงตำแหน่ง path ที่เก็บไฟล์
+        แต่ถ้า file มันถูกเขียนลงเรื่อยๆ มันก็จะมีขนาดใหญ่มาก จนเราต้องใช้ RollingFileAppender
+
+    RollingFileAppender
+        จะเป็นการสร้างไฟล์ใหม่ ตาม policy ที่เราได้กำหนดขึ้นมา อาจจะเป็นเรื่องของ ขนาดไฟล์ ถ้าเกินกำหนดก็ให้ไปสร้างไฟล์ใหม่
+        หรือจะเป็นเรื่องของ date จบวันแล้วก็ไปเขียนใหม่
+    
+    TimeBasedRollingPolicy
+        จะเป็น policy ในการ rolling ตามวันที่เราต้องการ เช่น วันละไฟล์ เดือนละไฟล์
+        ตัวอย่าง
+        <appender name="SAVE-TO-FILE" class="ch.qos.logback.core.FileAppender">
+            ...
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>
+                    ${LOG_PATH}/archived/log_%d{dd-MM-yyyy}.log
+                </fileNamePattern>
+                <maxHistory>10</maxHistory>
+                <totalSizeCap>100MB</totalSizeCap>
+            </rollingPolicy>
+        </appender>
+
+        เราจะเห็นว่ามี config เกี่ยวกับ history เช่น
+        maxHistory          จะเป็นเวลาสูงสุดที่ไฟล์นี้จะถูกเก็บไว้กี่วันก่อนที่จะถูกลบทิ้ง โดยเวลาที่จะถูกลบ มันจะไปอ่านจากชื่อไฟล์
+        totalSizeCap        จะเป็นการดู archived ไฟล์ทั้งหมดที่ถูกเก็บไว้ว่ามีขนาดเกินตาม totalSizeCap หรือไม่ ถ้าเกินไฟล์เก่าที่สุดจะถูกลบออก
+        **ทั้งนี้ maxHistory    จะทำงานเป็นลำดับแรก totalSizeCap จะมีความสำคัญรองลงมา
+
+    springProfile
+        ข้อดีของ spring boot อีกอย่างคือ springProfile อำนวยความสะดวกในการแยก environment ให้เราทำงานกับ config ได้ดียิ่งขึ้น
+        ตัวอย่าง
+        <springProfile name="dev">
+            <root level="info">
+                <appender-ref ref="STDOUT"/>
+                <appender-ref ref="SAVE-TO-FILE"/>
+            </root>
+            <logger name="com.lankydan.service.MyServiceImpl" additivity="false" level="debug">
+                <appender-ref ref="STDOUT"/>
+                <appender-ref ref="SAVE-TO-FILE"/>
+            </logger>
+        </springProfile>
+
+NextJS
+    
