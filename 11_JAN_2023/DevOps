@@ -1,0 +1,72 @@
+Images
+    ความแตกต่างของ Alpine, Slim, Stretch, Buster, Jessie, Bullseye
+
+    full image              จะเป็นทางเลือกปลอดภัย ถ้าไม่รู้ว่าจะต้องทำอะไรกับตัว image
+    stretch/buster/jessie   จะเป็น Debain release ที่เป็น stable version
+    bullseye/bookworm       จะเป็น Future release แต่ไม่เป็น stable version
+    slim                    จะเป็น full image ที่ลดขนาดลงมา
+    alpine                  จะเป็น ที่ base on Alpine Linux Project
+
+
+    *Alpine Linux Project เป็น OS ที่ถูกสร้างมาใช้เฉพาะกับ container เพราะมีขนาดเล็ก
+
+Alpine image
+    10 Alpine Linux apk Command
+
+    1. add
+        apk add <package-name>      สำหรับ install
+
+        [options]
+        -i
+            apk -i add nginx        การ -i จะเป็นการเกิด prompt ให้ตอบ Y/n
+            apk -i upgrade          update ก็เช่นกัน
+        -s
+            apk -s add nginx        เป็นการ simulate ก่อนที่คำสั่งจะเกิดการเปลี่ยนแปลงจริงๆ
+        =, =~, >
+            apk add bash=5.0.0-r0   เป็นการ fix version ของ package
+            apk add bash=~5.0       แบบนี้ก็ fix เฉพาะ major.minor version
+        --allow-untrusted
+            apk add --allow-untrusted /path/to/foo.apk เพิ่ม local package .apk
+
+    2. search
+        apk search <package-name>   ค้นหา package
+        example
+        -   apk search htop
+        =>  htop-doc-2.0.2-r0
+            htop-2.0.2-r0
+        
+        [options wildcard search]
+        apk search -v 'php7*'
+        =>  php7-intl-7.0.16-r0 - PHP7 extension: intl
+            php7-openssl-7.0.16-r0 - PHP7 extension: openssl
+            php7-dba-7.0.16-r0 - PHP7 extension: dba
+            ...
+
+    3. del
+        apk del <package-name>
+        example
+        - apk del htop
+        =>  (1/1) Purging htop (2.0.2-r0)
+            Executing busybox-1.25.1-r0.trigger
+            OK: 39 MiB in 27 packages
+
+    4. upgrade, update
+        upgrade running Alpine Linux
+        apk update && apk upgrade
+
+        [options]
+        -u
+            apk add -u pkgName  เลือก package เพื่อ upgrade โดยเฉพาะ
+
+    5. info
+        apk info        list รายการ package ที่ install แล้ว
+
+        [options]
+        -e
+            apk -e info pkgName   ตรวจสอบว่า package ลงแล้วยัง
+            => คำสั่งนี้ ถ้า package ไม่ได้ลงจะไม่มี display อะไรขึ้นมา
+        -R
+            apk -R info atop        List ว่า package ใช้ใคร
+        -r
+            apk info -r atop        List ว่า package ใครใช้ 
+        
