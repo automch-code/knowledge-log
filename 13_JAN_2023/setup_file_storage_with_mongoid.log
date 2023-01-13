@@ -1,0 +1,99 @@
+**การ setup file storage ด้วยการใช้งานกับ mongoid**
+1. เราต้องไป set up docker compose ของ minio ก่อนเพื่อจำลองการใช้งาน บน s3
+config แบบนี้
+
+ตัวอย่างจาก project 3bs
+```
+services:
+  3bs-minio:
+  image: 'bitnami/minio:2021.6.17'
+  container_name: 3bs-minio
+  ports:
+    - 9000:9000
+  environment:
+    MINIO_ACCESS_KEY: minioadmin
+    MINIO_SECRET_KEY: minioadmin
+    MINIO_DEFAULT_BUCKETS: 3bs-development
+  restart: always
+```
+เราจะได้ minio service ขึ้นมา
+
+2. ใน Gemfile เพิ่มชุดของ gems การทำงานเก็บไฟล์
+```
+gem 'carrierwave', '~> 2.2.3'
+gem 'carrierwave-mongoid', :require => 'carrierwave/mongoid'
+gem "fog-aws"
+```
+
+*version อาจจะมีการเปลี่ยนแปลง
+
+3. เพิ่มไฟล์ที่ชื่อ config/file_storage.yml (จริงๆ ชื่อไฟล์อะไรก็ได้ แต่เวลาใช้ใน step ที่ 4 (การ initialize) ต้องตั้งชื่อให้ตรงกัน)
+แล้วใส่ช้อมูลตาม environment ที่ใช้
+```
+development:
+  storage: "fog"
+  bucket: <%= ENV['AWS_STORAGE_BUCKET_NAME'] || "3bs-development" %>
+  region: <%= ENV['AWS_REGION'] || "ap-southeast-1" %>
+  endpoint: <%= ENV['AWS_ENDPOINT'] || "http://localhost:9000" %>
+  aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] || "minioadmin" %>
+  aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] || "minioadmin" %>
+  custom: true
+test:
+    ...
+uat:
+    ...
+production:
+    ...
+```
+4. การ initialize ตัว carrierwave.rb (config/initializers/carrierwave.rb) ถ้าไม่มีไฟล์ก็ให้ไปเพิ่ม
+*ส่วนนี้เป็นการ config แบบใช้ minio บน กรณี localhost ในอนาคตถ้าใช้ตัวอื่น ต้องมาปรับแก้ บางส่วน
+```
+CarrierWave.configure do |config|
+    config.fog_provider = 'fog/aws'
+    fog_credentials = {
+      provider: 'AWS',
+      region: Rails.application.config_for(:file_storage).region, # config_for ใช้ในการเรียกไฟล์ที่เราสร้างขึ้นมาเองใน config/<yourfile>.yml
+      aws_access_key_id: Rails.application.config_for(:file_storage).aws_access_key_id || ENV['AWS_ACCESS_KEY_ID'] || 'minioadmin',
+      aws_secret_access_key: Rails.application.config_for(:file_storage).aws_secret_access_key || ENV['AWS_SECRET_ACCESS_KEY'] || 'minioadmin'
+    }
+  
+    if Rails.application.config_for(:file_storage).custom.present?
+      fog_credentials.merge!(
+        {
+          endpoint: Rails.application.config_for(:file_storage).endpoint || 'http://localhost:9000',
+          path_style: true
+        }
+      )
+    end
+
+    config.fog_credentials = fog_credentials
+    config.fog_directory  = Rails.application.config_for(:file_storage).bucket || '3bs-development'
+    config.fog_public     = false
+    config.root = Rails.root.join('tmp')
+    config.cache_dir = 'uploads'
+end
+```
+5. สร้าง uploader จะมีตัวอย่างให้ใน carrierwave
+rails generate uploader Avatar
+เราจะได้ไฟล์ app/uploaders/avatar_uploader.rb (convention เป็น uploader ให้เองถ้าเราใช้ rails generate)
+
+ข้างในไฟล์จะมี example ให้ setup
+```
+ส่วน field storage ใน class ที่เรา rails generate uploader ขึ้นมา เราจะ set ตามนี้ (คือไปเรียกใช้ตาม environment ใน file_storage.yml)
+
+class AvatarUploader < CarrierWave::Uploader::Base
+    storage Rails.application.config_for(:file_storage).storage.to_sym # เรียกจาก file_storage.yml
+
+    ...    
+end
+```
+6. วิธีการทดสอบ ลองทำผ่าน rails c
+```
+uploader = AvatarUploader.new
+file_readme = File.open("README.md")
+uploader.store!(file_readme)
+```
+
+ควรจะมีไฟล์ขึ้นมาใน minio (ลองดูใน localhost:9000)
+
+7. ถือว่าจบการ setup minio แบบใช้ mongoid
