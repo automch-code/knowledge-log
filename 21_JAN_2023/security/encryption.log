@@ -1,0 +1,40 @@
+There are many types of encryption, including symmetric-key encryption, asymmetric-key encryption, and hashing.
+
+Symmetric-key encryption, 
+  also known as secret key encryption, uses the same key for both encryption and decryption. Examples of symmetric-key encryption algorithms include AES and DES.
+
+Asymmetric-key encryption,
+  also known as public key encryption, uses a pair of keys - one for encryption and one for decryption. Examples of asymmetric-key encryption algorithms include RSA and Elliptic Curve Cryptography (ECC).
+
+Hashing is a one-way process that generates a fixed-size output for a given input, called a hash or a digest. Examples of hashing algorithms include SHA-256 and MD5.
+
+Overall, the choice of encryption method depends on the use case and the level of security required.
+
+################################################################################
+
+Symmetric-key encryption flow
+
+The flow of symmetric-key encryption typically involves the following steps:
+
+Key Generation: 
+  A secret key is generated and shared between the sender and the receiver.
+  The key is used for both encryption and decryption.
+
+Encryption:
+  The sender uses the secret key to encrypt the plaintext message.
+  This produces the ciphertext, which is sent to the receiver.
+
+Transmission:
+  The ciphertext is transmitted over a network or stored on a device.
+
+Decryption:
+  The receiver uses the secret key to decrypt the ciphertext and recover the original plaintext message.
+
+It's important to keep the secret key secure and only share it with authorized parties, 
+as anyone with the key can decrypt the ciphertext and access the original message.
+
+Another important point is that symmetric encryption is vulnerable to man-in-the-middle attack, 
+so the key has to be securely exchanged before the communication, which is done by asymmetric encryption.
+
+################################################################################
+

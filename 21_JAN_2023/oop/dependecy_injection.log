@@ -1,0 +1,250 @@
+Dependency Injection
+- เป็นส่วนนึงของ SOLID principle คือตัว "D" (Dependency)
+- คือเทคนิคในการส่งต่อตัว dependecy แทนการสร้าง dependency ขึ้นมาใหม่
+- ก็คือการที่เราไม่ต้องไป สร้าง object ขึ้นมาใหม่
+- Dependency Injection is not a goal, but a solution to a particular set of problems
+
+"
+High level modules should not depend upon low level modules. 
+Both should depend upon abstractions.
+Abstractions should not depend upon details. 
+Details should depend upon abstractions.
+"
+
+##############################################################################
+example กรณีไม่ใช้ DI
+class Notebook {
+
+    public mainboard: Mainboard;
+    public harddisk: Harddisk;
+
+    constructor() {
+        this.mainboard = new Mainboard();
+        this.harddisk = new Harddisk()
+    }
+}
+
+กรณีที่เราไม่ใช้ dependency Injection
+  brittle (เปราะบาง) : 
+    เมื่อคลาส Mainboard หรือ Harddisk ต้องการ parameter เพิ่มเติมละ? 
+    คลาส Notebook พังแน่นอน
+  inflexible (ไม่ยืดหยุ่น) : 
+    ถ้าหากต้องการเปลี่ยนชนิดของ Mainboard หรือ Harddisk ละ? 
+    หรือถ้า Notebook บางคลาสต้องการ Mainboard หรือ Harddisk ที่ไม่เหมือนกันละ?
+  hard to test (ยากต่อการเขียน test) : 
+    เราไม่สามารถคาดเดากับสิ่งที่จะเกิดขึ้นในคลาส Notebook ได้เลย 
+    เนื่องจากเรามี dependency กับ Mainboard และ Harddisk 
+    ที่เราไม่สามารถควบคุม 2 คลาสนี้ได้
+
+##############################################################################
+example กรณีใช้ DI
+
+class Notebook {
+    constructor(public mainboard: Mainboard, public harddisk: Harddisk) {}
+}
+
+// วิธีใช้
+
+const newbook = new Notebook(new Mainboard(), new Harddisk());
+
+เราจะเห็นว่า ไม่ต้องมีความกังวลที่จะสร้าง Notebook ใหม่ เพราะถ้า mainboard กับ harddisk ต้องรับ paramter ใหม่เข้ามา
+ก็สามารทำงานได้ปกติ
+##############################################################################
+
+ประเภทของ Dependency Injection
+- Constructor Injection
+- Property Injection (aka Setter Injection)
+- Method Injection
+// optional
+- Field injection
+- Provider injection
+
+###########################################################################################
+
+Constructor injection: 
+  In this type of injection, the dependencies are passed to the class constructor when the object is created. 
+  This type of injection is best used when the dependencies are required for the class to function properly.
+
+Setter injection: 
+  In this type of injection, the dependencies are set through setter methods on the class after the object is created.
+  This type of injection is best used when the dependencies are optional or can be changed at runtime.
+
+Interface injection: 
+  In this type of injection, an interface is used to define a set of methods 
+  that the class must implement to receive its dependencies.
+  This allows for greater flexibility and testability of the code.
+
+Field injection: 
+  In this type of injection, the dependencies are injected directly into the fields of the class 
+  without the need for constructors or setter methods. 
+  This type of injection is often used in frameworks such as Spring, 
+  and is best used when the dependencies are required for the class to function properly.
+
+Provider injection: 
+  In this type of injection, a class provides a factory method that returns the dependency when needed.
+  This allows for more control over how and when the dependency is created.
+
+###########################################################################################
+
+Use case each type
+
+Constructor injection: 
+  Constructor injection is best used when the dependencies are required for the class to function properly.
+  This means that if the dependencies are not present, the class cannot be instantiated. 
+  This type of injection is best used when the dependencies are required at the time of object creation 
+  and will not change during the lifetime of the object. 
+  This makes the class more robust and less prone to errors since the dependencies are guaranteed to be present.
+
+Setter injection: 
+  Setter injection is best used when the dependencies are optional or can be changed at runtime. 
+  This type of injection allows the object to be created without the dependencies, and they can be added later. 
+  This allows for greater flexibility and testability of the code.
+
+Interface injection: 
+  Interface injection is best used when the dependencies are required for the class to function properly, 
+  but the class should not be tightly coupled to the specific implementation of the dependencies. 
+  By using an interface to define the dependencies, the class can be more easily tested and extended.
+
+Field injection: 
+  Field injection is best used when the dependencies are required for the class to function properly and 
+  the class does not need to control the instantiation of the dependencies. 
+  This type of injection is often used in frameworks such as Spring, 
+  and is best used when the dependencies are required at the time of object creation and 
+  will not change during the lifetime of the object.
+
+Provider injection: 
+  Provider injection is best used when more control is needed over the instantiation of the dependency. 
+  This type of injection allows the class to control when and how the dependency is created, 
+  which can be useful when the dependency is expensive to create or has a complex initialization process.
+
+###########################################################################################
+
+Constructor injection
+- แบบตัวอย่างบนสุด
+
+###########################################################################################
+
+Property Injection (aka Setter Injection)
+
+------------------------------------------------
+
+public class Email implements MessageService {
+
+	public void send() {		
+	}
+}
+
+------------------------------------------------
+
+public interface MessageService {
+	
+	public void send();
+
+}
+
+-------------------------------------------------
+
+public class Notification {
+
+	private MessageService messageService;
+
+	public void setMessageService(MessageService messageService) {
+		this.messageService = messageService;
+	}
+
+	public void notifyPromotion() {
+		if (this.messageService != null) {
+			messageService.send();
+		}
+	}
+}
+
+###########################################################################################
+
+Method Injection
+
+--------------------------------------------------
+
+public class Notification {
+
+	public void notifyPromotion(MessageService messageService) {
+		messageService.send();
+	}
+
+}
+
+
+
+###########################################################################################
+
+ประโยชน์ของ Dependency Injection
+1. ลดการ couple(ผูกมัด) ของ code
+ถ้าเราใช้เทคนิค dependency injection แล้ว code ในส่วนของ dependency ก็จะไม่ผูกหรือขึ้นอยู่กับ class ของเรา ทำให้นำไปสู่ข้อต่อไป
+
+2. ง่ายต่อการ test
+เมื่อ code ผูกมัดกัน(couple)น้อยลงแล้ว ทำให้เวลาเรา test สามารถ mock(จำลอง) ส่วนของ dependency ได้ จึงทำให้ง่ายต่อการเขียน test ครับ
+
+###########################################################################################
+
+แล้วเราจะใช้ DI เมื่อไหร่
+
+A service is some contract/abstraction/interface that provides 'a service.' 
+This typically means that the service will do something on your behalf, 
+such as calculate prices, communicate to the database, cache values, return the system's time, 
+or format your hard drive
+
+A configuration value is what it is; just a value. 
+But you need to inject it— 
+it can't be hard coded into the class, 
+and you don't want the class to fetch the value itself from the ConfigurationManager, 
+for instance, because that would create a hidden dependency (on the Configurationmanager) 
+and this would make the class harder to test.
+
+############################################################################################
+
+
+
+############################################################################################
+
+Dependency Injection (DI) is a design pattern that helps to solve the problem of hard-coded dependencies between objects in a software application.
+
+DI can solve several problems:
+
+Tight coupling: 
+  Without DI, objects are often tightly coupled to their dependencies,
+  making it difficult to change or test them in isolation.
+  DI allows for a more loosely-coupled architecture,
+  making it easier to change or test individual objects.
+
+Boilerplate code:
+  Without DI,
+  objects often have to create or find their own dependencies,
+  which can lead to a lot of boilerplate code.
+  DI allows for dependencies to be passed in through constructors or methods,
+  reducing the amount of boilerplate code.
+
+Testability: 
+  Without DI, objects are often difficult to test in isolation because they have hard-coded dependencies.
+  DI allows for dependencies to be mocked or substituted during testing,
+  making it easier to test individual objects.
+
+Flexibility:
+  Without DI, objects are often tightly coupled to specific implementations of their dependencies.
+  DI allows for different implementations of a dependency to be easily swapped out,
+  increasing the flexibility of the system.
+
+Modularity:
+  Without DI, objects are often tightly coupled to their dependencies,
+  making it difficult to reuse them in different parts of the system.
+  DI allows for objects to be more modular,
+  as they can receive their dependencies through their constructors or methods,
+  making them more reusable.
+
+Reusability:
+  With DI, objects can be reused in different parts of the system,
+  making it a more modular and reusable architecture.
+
+Maintainability:
+  With DI, objects are easy to maintain,
+  since they are loosely coupled,
+  easy to test, and easy to change.

@@ -1,0 +1,61 @@
+HEAP
+
+A memory heap is a region of memory set aside for dynamic allocation of memory at runtime. The heap is a pool of memory that is used to store objects and data structures that are created during the execution of a program. The heap is managed by the operating system or runtime environment and can be used by a program to dynamically allocate memory as needed.
+
+In contrast to the stack, which is used for storing data that is specific to a function call or scope, the heap is used for storing data that is intended to have a longer lifetime, such as objects that are created during the execution of a program and are not immediately deallocated.
+
+Heap memory is typically slower to access than stack memory because it is managed by the operating system and can be located anywhere in memory. However, the heap provides a much larger pool of memory that can be used for dynamic allocation and is not limited by the size of the stack.
+
+Heap memory can be allocated and deallocated dynamically, and the memory allocated on heap can be accessed globally while the memory allocated on stack can be accessed only locally.
+
+The heap is a critical component of any program, it is used to store data that is intended to have a longer lifetime and can be accessed globally. However, it also requires careful management to avoid memory leaks, fragmentation, and other performance issues.
+
+#########################################################
+
+Memory leak
+
+A memory leak is a type of software bug where a program or application continuously allocates memory but fails to properly deallocate it, leading to a gradual increase in memory usage over time. This can eventually cause the program or system to become unresponsive or crash. Memory leaks are often caused by programming errors such as failing to properly release memory that is no longer needed, or by circular references that prevent memory from being freed.
+
+---------------------------------------------------------
+
+#include <iostream>
+using namespace std;
+
+int main() {
+    while (true) {
+        new int[1000000000ul];  // Allocate memory for a large array
+        cout << "Allocated memory" << endl;
+    }
+    return 0;
+}
+
+---------------------------------------------------------
+
+In this program, an array of 1 billion integers is continuously created in a loop, 
+but it is never deleted or freed. As a result, 
+the program will continue to allocate memory until it runs out and the system becomes unresponsive.
+
+This is a simple example and it can happen in other languages and also in more complex situations.
+
+Proper memory management would include releasing memory that is no longer needed,
+such as by using the delete[] operator in C++ or the free() function in C, or by using smart pointers that automatically manage memory for you.
+
+##########################################################
+
+Out of memory
+
+"Out of memory" (OOM) refers to a condition where a system or program has exhausted all available memory resources. 
+This can happen when a program or system attempts to allocate more memory than is physically available on the system,
+or when a program has a memory leak that causes it to consume more memory than it should.
+
+When a program or system encounters an OOM condition, it will typically trigger an error or exception, and the program may crash or become unresponsive. In some cases, the operating system may try to reclaim memory by killing one or more processes, but this can lead to data loss or corruption.
+
+OOM can occur in a number of ways, such as:
+
+When a program requests memory from the operating system, but the operating system has none left to give
+When a program has a memory leak, where it continues to allocate memory but fails to release it
+When a program's data structures grow too large to fit in memory
+When a system is running low on physical memory and the operating system starts swapping memory to disk, causing performance degradation.
+Preventing OOM requires careful management of memory usage, such as releasing memory that is no longer needed 
+and monitoring memory usage to detect and fix memory leaks.
+It is important to be aware of the amount of memory a program needs and to have a clear understanding of the memory usage of the system.
