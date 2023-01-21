@@ -52,10 +52,13 @@ When a program or system encounters an OOM condition, it will typically trigger 
 
 OOM can occur in a number of ways, such as:
 
-When a program requests memory from the operating system, but the operating system has none left to give
-When a program has a memory leak, where it continues to allocate memory but fails to release it
-When a program's data structures grow too large to fit in memory
-When a system is running low on physical memory and the operating system starts swapping memory to disk, causing performance degradation.
-Preventing OOM requires careful management of memory usage, such as releasing memory that is no longer needed 
-and monitoring memory usage to detect and fix memory leaks.
-It is important to be aware of the amount of memory a program needs and to have a clear understanding of the memory usage of the system.
+1. When a program requests memory from the operating system, but the operating system has none left to give
+2. When a program has a memory leak, where it continues to allocate memory but fails to release it
+3. When a program's data structures grow too large to fit in memory
+4. When a system is running low on physical memory and the operating system starts swapping memory to disk, causing performance degradation.
+
+Preventing OOM requires careful management of memory usage, 
+such as releasing memory that is no longer needed and 
+monitoring memory usage to detect and fix memory leaks.
+It is important to be aware of the amount of memory a program needs and 
+to have a clear understanding of the memory usage of the system.

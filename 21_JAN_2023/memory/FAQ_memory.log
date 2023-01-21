@@ -1,0 +1,22 @@
+declare array and the region of memory
+- int array[10]; 
+  จะถูกเก็บอยู่ใน data segment
+
+- int* array;
+  array = (int*) malloc(size * sizeof(int)); 
+  จะถูกเก็บอยู่ใน memory heap
+
+- int array[size];
+  จะถูกเก็บอยู่ใน "stack" stack จะเก็บ local variable, function call frames
+  **จะเกิดปัญหา stack overflow
+
+
+Stackoverflow ต่างกับ Out of memory อย่างไร
+- Stack overflow เกิดจากการที่ ประกาศ array ใหญ่เกินไป
+  หรือ เรียกใช้ function recursive แบบไม่เจอ condition จบ หรือเรียกเยอะมากเกินไป
+  ปัญหาของ stackoverflow คือจะทำให้ crash ได้
+  อาจจะแก้ด้วย data structures หรือ algorithm ที่ดีกว่า
+
+- out of memory จะเกิดจากการที่ dynamic allocate large memory ทำให้ memory ไม่เพียงพอ
+  เพราะไม่ยอม release ส่วนที่ไม่ได้ใช้ memory
+  ปัญหาของ out of memory จะไม่ได้ crash เสมอไป แต่จะทำให้ performance ลดลง
