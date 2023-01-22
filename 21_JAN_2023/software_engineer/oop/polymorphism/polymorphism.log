@@ -1,0 +1,5 @@
+Polymorphism
+- เป็นการมีได้หลายรูปแบบ
+- ตัวอย่าง interface Shape ที่ class Rectangle, Class Circle เอาไป implement
+  ก็ถือว่าเป็นการทำ Polymorphism เพราะ Shape ได้กลายมาเป็น Rectangle ก็ได้ Circle ก็ได้
+  และใน interface Shape ยังมี calculateArea() โดยไม่สนใจว่าจะเป็นรูปแบบอะไร ก็สามารถ calculate ได้หมด

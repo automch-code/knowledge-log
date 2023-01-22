@@ -1,12 +1,14 @@
 In object-oriented programming (OOP)
 An interface is a contract that defines a set of methods that a class must implement. 
-It is a way to specify the behavior that a class must provide without specifying how that behavior is implemented. 
+It is a way to specify the behavior that 
+a class must provide without specifying how that behavior is implemented. 
 An interface can be thought of as a blueprint for a class.
 
-Abstraction is a concept in OOP that refers to the process of hiding the implementation details of an object 
+Abstraction is a concept in OOP that
+refers to the process of hiding the implementation details of an object 
 and exposing only the necessary information to the user.
 It is a way to simplify complex systems by breaking them down into smaller, 
-more manageable parts. 
+more manageable parts.
 An example of abstraction in OOP is the use of inheritance and polymorphism to create a class hierarchy 
 that represents the different types of objects in a system.
 
