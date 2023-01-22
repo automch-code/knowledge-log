@@ -1,0 +1,5 @@
+Oauth2
+We wouldn’t want to use that for an internet banking website. 
+But for basic identification purposes, and to segregate content between different users of your site,
+it’s an excellent starting point. 
+That’s why this kind of authentication is very popular these days.

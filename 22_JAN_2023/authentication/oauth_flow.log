@@ -1,0 +1,12 @@
+Github Example (github provider)
+1. เราใช้ access token ไปถาม github เกี่ยวกับข้อมูลก่อน (สิ่งที่คุณอนุญาตให้ทำ)
+   ทั้ง loginID และก็ "ชื่อ" ด้วย
+2. จากนั้น github ก็จะทำตัวเป็นเหมือน resource server
+   (id กับ ชื่อ ก็เหมือนเป็น resource ที่อยู่ใน github ใครจะเอาไปมั่วๆ ไม่ได้)
+   github จะทำการ decode ตัว token ที่เราส่งมา และ ตรวจสอบว่า
+   ถ้าหาก ฉัน(github) ให้สิทธิ์กับแก (app ที่ร้องขอ) เข้าถึงข้อมูลของ user
+3. ถ้าหากว่าผ่าน app ก็จะใส่ข้อมูล user ลงไปใน Spring Security Context (กรณีใช้ spring boot)
+4. ก็เป็นอันว่า authenticate ผ่าน
+
+ถ้าลองไป inspect ที่ network ดูก็จะเห็น traffic วิ่งกลับไป-กลับมา ระหว่าง github และก็ตัว app ของเรา
+สุดท้ายก็จะมาจบที่หน้า app เรา แล้วตรง header ก็จะมี JSESSIONID โผล่มาตรง cookie หรือ Set-Cookie

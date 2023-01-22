@@ -20,3 +20,8 @@ Stackoverflow ต่างกับ Out of memory อย่างไร
 - out of memory จะเกิดจากการที่ dynamic allocate large memory ทำให้ memory ไม่เพียงพอ
   เพราะไม่ยอม release ส่วนที่ไม่ได้ใช้ memory
   ปัญหาของ out of memory จะไม่ได้ crash เสมอไป แต่จะทำให้ performance ลดลง
+
+Memory Leak คือ
+- ก็คือการที่เรา malloc ตัว memory ที่เราไม่ได้ใช้งาน แล้วเราก็ไม่ได้ free หรือ release ออกไป
+  ทำให้ program นั้นบริโภคตัว memory มากขึ้นๆ จนกระทั่งทำให้เกิดความช้า จนกระทั่งต้องใช้วิธีการ swap
+  ก็คือไปเรียก storage มาช่วยทำงาน
