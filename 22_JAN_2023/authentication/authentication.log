@@ -1,0 +1,38 @@
+Authentication
+- เป็นการระบุตัวตนของผุ้ใช้ ว่าผู้ใช้งานเป็นคนๆ นั้นจริงรึเปล่า
+  ซึ่งมันก็จะผ่านกฎเกณฑ์อะไรบางอย่าง เช่น username, password ต้องเอามาตรวจสอบว่าตรงไหม
+
+#################################################################################
+
+วิธีการต่างๆ ในการ Authentication
+
+Password-based authentication:
+  This is the most widely used method,
+  where a user enters a username and password to gain access to a system.
+
+Two-factor authentication:
+  This method adds an additional layer of security by requiring a second form of authentication,
+  such as a fingerprint or security code sent to a user's phone.
+
+Biometric authentication:
+  This method uses unique physical characteristics,
+  such as a fingerprint or facial recognition,
+  to verify a user's identity.
+
+Token-based authentication:
+  This method uses a token, such as a JWT, 
+  that is generated and sent to the user's device after successful authentication.
+
+Certificates-based authentication:
+  This method uses digital certificates,
+  such as X.509, to verify the identity of a user or system.
+
+Single Sign-On (SSO):
+  SSO is a method where a user can use one set of login credentials
+  to access multiple systems or applications.
+
+Social Media Authentication:
+  Using Social Media account (ex: Facebook, Google)
+  to authenticate user
+
+#################################################################################

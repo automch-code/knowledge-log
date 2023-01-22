@@ -1,1 +1,3 @@
 Monolithic
+- ระบบที่ run อยู่ใน single process และ share กันอยู่ใน memory space เดียวกัน
+- 

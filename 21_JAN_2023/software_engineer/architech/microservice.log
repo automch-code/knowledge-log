@@ -1,2 +1,5 @@
 Microservice
+- service ต่างๆ ที่เราทำงานนั้นจะ run แยก process กัน
+- อารมณ์เหมือนเรา start server เฉพาะการทำงานของการ CRUD user, แต่ CRUD เช่น BankAccount ก็ไป start server ใหม่
+  แล้วค่อยคุยกันผ่าน API (Restful, gRPC)
 - 

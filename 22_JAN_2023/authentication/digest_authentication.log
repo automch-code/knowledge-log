@@ -1,0 +1,6 @@
+Step of Digest Authentication
+1. user ร้องขอเข้าถึงข้อมูล ที่ต้องใช้รหัสเข้าถึง
+2. server ส่ง "nonce" value ออกไปให้ user (จริงๆ nonce มันคือ generate uniq string แหละ)
+3. user กรอก username password เข้า hashing H(A1) = MD5(username:realm:password)
+   แล้วส่ง username, H(A1), nonce ไปให้ server
+4. 
