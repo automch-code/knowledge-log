@@ -1,0 +1,8 @@
+UUID
+  - 128-bit identifier(ID) เอาไว้ใช้ ระบุ จำแนก คล้ายๆ ลายนิ้วมือ
+  - UUID ที่ใช้ทั่วไปจะเป็น version 4
+  - ประกอบด้วย 4 ส่วน
+    1. A 32-bit timestamp (in milliseconds since the Unix epoch)
+    2. 16-bit clock sequence value
+    3. 48-bit node identifier (either a MAC address or a randomly generated value)
+    4. version number (4)

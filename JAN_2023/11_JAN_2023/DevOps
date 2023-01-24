@@ -1,5 +1,5 @@
 Images
-    ความแตกต่างของ Alpine, Slim, Stretch, Buster, Jessie, Bullseye
+    ความแตกต่างของ Alpine, Slim, Stretch, Jessie, Buster, Bullseye
 
     full image              จะเป็นทางเลือกปลอดภัย ถ้าไม่รู้ว่าจะต้องทำอะไรกับตัว image
     stretch/buster/jessie   จะเป็น Debain release ที่เป็น stable version

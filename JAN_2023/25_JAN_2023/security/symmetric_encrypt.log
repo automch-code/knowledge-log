@@ -1,0 +1,9 @@
+Symmetric Encryption
+  - การที่เวลาเข้ารหัสและถอดรหัสใช้ key เดียวกัน
+
+Example:{
+                          --------secret key---------
+                          |                         |
+  plain text  ---->  box (AES, DES)  ------------> box (AES, DES) ----> plain text
+                      encryption                    decryption
+}

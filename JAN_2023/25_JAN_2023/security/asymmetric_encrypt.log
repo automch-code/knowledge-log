@@ -1,0 +1,9 @@
+Asymmetric encryption
+  - คือการเข้ารหัสด้วย Public Key, แล้วถอดด้วย Private Key
+
+Example:{
+                      public key                          private key
+                          |                                   |
+  plain text  ---->  box (RSA, DSA, ECC)  ------------> box (RSA, DSA, ECC) ----> plain text
+                      encryption                           decryption
+}

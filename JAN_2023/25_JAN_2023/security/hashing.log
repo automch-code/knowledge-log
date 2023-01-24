@@ -1,0 +1,11 @@
+Hashing
+  - คือการนำ plaintext มาเข้ารหัสบางอย่าง แล้วได้ string fix-length ที่ uniq
+  - แต่เราจะโดน "rainbow table attack"
+
+Rainbow Table Attack
+  - คือการที่ Hacker มี ฐานข้อมูลอยู่แล้ว รู้ว่า plaintext เข้า hash ได้ผลลัพธ์แบบเดิม
+
+วิธีแก้ Rainbow Table Attack
+  - วิธีการคือใช้ "salt"
+  - "salt" คือ string  ที่ถูก random มาแล้วไปต่อกับ plaintext แล้วค่อยนำไปเข้า Hash ซึ่งผลลัพธ์ก็ต่างกัน
+  - แก้เรื่อง rainbow attack ได้
