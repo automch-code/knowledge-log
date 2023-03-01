@@ -1,0 +1,8 @@
+คำว่า establish 1 connection ไปที่ database
+  - คือการที่ เรานั้นจะ perform operation อะไรบางอย่าง เช่นการ read, write
+  - ความล่าช้าเราอาจจะแทบไม่รู้สึก เมื่อทำบน local 
+  - ปัจจัยก็ขึ้นอยู่กับ infrastructure และก็ตัว network
+
+Connection Pool
+  - เป็นการ cache connection ของ database
+    ทำให้ database reuse connection ได้

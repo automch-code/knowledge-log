@@ -1,0 +1,22 @@
+SQL JOIN operation
+  - จะเป็นการรวม rows ของทั้ง 2 table โดย 2 table ต้องมี column ที่ใช้ร่วมกัน
+
+ให้นึกถึง SET
+
+(INNER) JOIN <Table> ON
+  - เลือกอันที่ match กันเท่านั้น
+
+LEFT JOIN <Table> ON
+  - เป็น A
+
+RIGHT JOIN <Table> ON
+  - เป็น B
+
+FULL OUTER JOIN <Table> ON
+  - เหมือน union
+
+
+SELECT ...
+FROM <Table1> 
+LEFT JOIN <Table2>
+ON <Table1>.field = <Table2>.field
