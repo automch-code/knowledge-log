@@ -1,0 +1,43 @@
+React คืออะไร (อย่างง่าย)
+  - แสดง HTML
+  - เปลี่ยน HTML เวลา user มี interact อะไรบางอย่าง
+  - เราเขียน function และ return JSX
+  JSX คืออะไร (ลงลึกมาหน่อย)
+    - example
+        function App() {
+          return (
+            <div>
+              <h3>Hello world</h3>
+            </div>
+          )
+        }
+      สิ่งที่ return ออกไปคือ JSX หน้าตามันจะเหมือน HTML แต่ให้เข้าใจประมาณนี้ก่อน
+  - flow ที่จะแสดงก็คือ JSX --> React --> HTML page
+  React Component คืออะไร (ลงลึกมาหน่อย)
+    - function หรือ class ที่มีการ return JSX ออกไปเรียกว่า "React Component"
+    - React Component คือ สิ่งที่บอก React ว่าจะต้องแสดงอะไร
+    - function App() {
+          return (
+            <div>
+              <h3>Hello world</h3>
+            </div>
+          )
+        }
+      ทั้ง function นี้ เรียกว่า 1 React component
+    - Component จะมี 2 แบบ
+      - แบบที่ 1 คือ function ที่มี props รับ input แล้ว return jsx ออกไป เรียกว่า "Function Component"
+      - แบบที่ 2 คือ class ที่มีการ extend React.Component เรียกว่า "Class Component"
+    - สุดท้าย Component ทั้งหมดก็ทำงานร่วมกัน
+
+React app start up อย่างไร (อย่างง่าย)
+  - ให้มอง flow ภาพรวมแบบนี้ก่อน
+    1. JS ไฟล์ทั้งหมดใน project ถูก bundle เป็น 1 ไฟล์แล้ว
+    2. user request ไปที่ server (คำว่า request ก็คือการที่เรา ใส่ localhost:3000/ แล้วกด enter ใน browser นั่นแหละ)
+       แล้วก็ได้ไฟล์ HTML + ตัว bundle ตามข้อ 1 (เข้า browser F12 แล้ว ดูที่ tab "source" นั่นคือ ที่ได้มา)
+    3. browser จะ execute code
+
+useState('') คืออะไร (อย่างง่าย)
+  - useState ก็คือ function ที่ทำงานร่วมกับ "state" ของ React
+  - State ก็เหมือนกับตัวแปรใน React
+  - State เอาไว้เก็บ data ที่มีการเปลี่ยนอยู่ตลอดเวลา
+  - State เปลี่ยน React update หน้าจอ อัตโนมัติ
