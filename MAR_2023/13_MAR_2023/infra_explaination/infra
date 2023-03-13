@@ -1,0 +1,60 @@
+Virtual Private Cloud (VPC)
+  - Network
+    สร้างวง LAN ที่เป็น private network
+    การทำงานของ infra จะอยู่เฉพาะภายในวง LAN ที่เป็น private network
+
+NAT gateway
+  - เนื่องจากการทำงานขาเข้า จะต้องกระทำผ่าน load balancer
+    การทำงานขาออกจะใช้ NAT gateway เพื่อทำให้เครื่อง ภายใน ออก internet ได้
+
+Node server (Kubernetes)
+  - Node server มีการกำหนด firewall inbound และ outbound port และ ip ที่ใช้
+    ภายใต้ private network
+
+Load Balancer
+  - เป็นตัวกระจาย load ให้กับเครื่อง server ที่อยู่ภายใต้ private network
+  - เป็นทางเข้าสำหรับ request ที่เข้ามาใช้งาน Infrastructure
+
+Database
+  - Network
+    Database จะอยู่ในวงของ private network ตัวของ Database ไม่สามารถเข้าถึงจากภายนอกได้
+    การเข้าถึงทำได้ 2 วิธี คือ
+      1. การยิง api จาก backend
+      2. การสร้างเครื่องที่อยู่ภายใน network เดียวกัน กำหนด key ที่ใช้ในการเข้าถึงเครื่องนั้น (Bastion)
+         จากนั้นต้อง connect Database ผ่าน username/password หรือ key ที่กำหนด อีกทีหนึ่ง
+  - Port
+    Database ที่ใช้จะมีการเปลี่ยน port ที่ไม่ใช่ port default 
+      - ถ้าใช้งาน postgresql จะใช้ port อื่นแทน 5432
+      - ไม่มีการ expose port ใช้ใน public
+  - Username/Password
+    Username จะไม่ใช้ default username / password
+      - มีการ generate key ผ่าน thrid-party
+
+Object Storage
+  - เป็นส่วนจัดการกับไฟล์ที่มีการ upload เข้ามาผ่าน application
+  - มีการจำกัดสิทธิ์การเข้าถึงตัวไฟล์
+  - ลิงค์ไฟล์มีวันหมดอายุ
+
+Monitoring
+  - เป็นกระบวนการตรวจจับความผิดปกติบน Infrastructure
+    เช่น 
+      - ความผิดปกติของ cpu usage ที่ใช้มากกว่าปกติ ณ ช่วงเวลาหนึ่ง
+      - เครื่อง server ดับ
+      - การ tracing
+  - ปกติจะใช้ tools ต่างๆ เข้ามาช่วยเช่น Prometheus, อื่นๆ
+
+Logging
+  - เป็นส่วนบันทึกการกระทำที่เกิดกับ Infrastructure 
+    สามารถนำไปแก้ปัญหา หรือ วิเคราะห์ต่อได้ในอนาคต
+
+HTTPS
+  - HTTPS (secure) เป็นการส่งข้อมูล โดยข้อมูลที่ถูกส่งจากฝั่ง client ไปที่ server จะมีการเข้ารหัส
+    ซึ่งกระบวนการเหล่านี้ทำได้ด้วยการใช้ SSL/TLS
+
+Bcrypt
+  - Bcrypt เป็นวิธีการเข้ารหัสที่ถูกออกแบบมาให้มีการทำงานที่ช้า และใช้ทรัพยากรเครื่องสูง เพื่อป้องกันการ brute force password
+  - ค่า salt ของ Bcrypt จะเป็น unique สำหรับแต่ละ hash เพื่อป้องกันการโจมตีของ rainbow table
+    หมายความว่า ต่อให้ ผู้โจมตี มี table ของ hash ที่ precompute มาแล้วก็ต้องคำนวนตาราง hash ใหม่ทุกครั้ง
+    ไม่สามารถเดาค่า hash ได้
+  - Bcrypt มีการใช้กันอย่างแพร่หลาย เพราะฉะนั้น เป็นเรื่องง่ายที่จะทำการ implement จากใช้ Bcrypt กับ programming language ต่างๆ 
+
